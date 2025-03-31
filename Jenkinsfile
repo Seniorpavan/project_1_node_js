@@ -1,13 +1,14 @@
 pipeline {
-    agent any
+    agent master
     environment {
-        IMAGE_NAME = "your-dockerhub-username/simple-app"
+        IMAGE_NAME = "prvnmora/simple-app"
         AWS_REGION = "us-east-1"
     }
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-repo/simple-app.git'
+               checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/main']], extensions: [], 
+               userRemoteConfigs: [[credentialsId: 'GitHub-Cred', url: 'https://github.com/prvnmora/APP_NodeJS.git']])
             }
         }
         stage('Build Docker Image') {
@@ -17,7 +18,7 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'docker-hub-credentials', url: '']) {
+                withDockerRegistry([credentialsId: 'docker-hub-credentials', url: 'https://hub.docker.com/repositories/prvnmora']) {
                     sh 'docker push $IMAGE_NAME'
                 }
             }
