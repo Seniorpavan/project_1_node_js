@@ -8,7 +8,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/main']], extensions: [], 
-               userRemoteConfigs: [[credentialsId: 'GitHub-Cred', url: 'https://github.com/prvnmora/APP_NodeJS.git']])
+               userRemoteConfigs: [[credentialsId: 'GitHub-Cred', url: 'https://github.com/Seniorpavan/project_1_node_js.git']])
             }
         }
         stage('Build Docker Image') {
